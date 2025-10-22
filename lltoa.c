@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:35:28 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/22 16:20:42 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/22 17:36:23 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,21 @@ char	*ft_lltoa(long long nbr)
 	int			sign;
 
 	ft_bzero(buffer, sizeof(buffer));
-	cursor = &buffer[20];
+	cursor = &buffer[21];
 	sign = 0;
 	if (nbr < 0)
 	{
-		*cursor-- = nbr % 10 * -1 + '0';
+		*--cursor = nbr % 10 * -1 + '0';
 		nbr /= -10;
 		sign = 1;
 	}
 	while (nbr / 10 != 0 )
 	{
-		*cursor-- = nbr % 10 + '0';
+		*--cursor = nbr % 10 + '0';
 		nbr /= 10;
 	}
-	*cursor = nbr % 10 + '0';
+	if (nbr > 0 || *(cursor) == 0)
+		*--cursor = nbr % 10 + '0';
 	if (sign)
 		*--cursor = '-';
 	return (cursor);

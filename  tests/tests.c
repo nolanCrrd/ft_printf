@@ -36,16 +36,24 @@ int	main(void)
 	assert(ft_printf("test : %c : test\n", 'a') == printf("test : %c : test\n", 'c'));
 	printf("========\n");
 
-	ft_printf("\n===========\ntest int\n===========\n\n");
+	ft_printf("\n===========\ntest int/d\n===========\n\n");
 	// tests char
-	assert(ft_printf("%i", 0) == printf("%i", 0));
-	printf("\n========\n");
-	assert(ft_printf("%i", 1) == printf("%i", 1));
-	printf("\n========\n");
-	assert(ft_printf("%i", -1) == printf("%i", -1));
-	printf("\n========\n");
-	assert(ft_printf("%i", 10) == printf("%i", 10));
-	printf("\n========\n");
-	assert(ft_printf("%i", -10) == printf("%i", -10));
-	printf("\n========\n");
+	assert(ft_printf("%i\n", 0) == printf("%i\n", 0));
+	printf("========\n");
+	assert(ft_printf("%i\n", 1) == printf("%i\n", 1));
+	printf("========\n");
+	assert(ft_printf("%i\n", -1) == printf("%i\n", -1));
+	printf("========\n");
+	assert(ft_printf("%i\n", 10) == printf("%i\n", 10));
+	printf("========\n");
+	assert(ft_printf("%i\n", -10) == printf("%i\n", -10));
+	printf("========\n");
+	assert(ft_printf("%i\n", -121312) == printf("%i\n", -121312));
+	printf("========\n");
+	assert(ft_printf("%i\n", 121312) == printf("%i\n", 121312));
+	printf("========\n");
+	assert(ft_printf("%i\n", 2147483647) == printf("%i\n", 2147483647));
+	printf("========\n");
+	assert(ft_printf("%i\n", -2147483647) == printf("%i\n", -2147483647));
+	printf("========\n");
 }
