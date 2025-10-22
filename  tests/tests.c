@@ -16,7 +16,7 @@
 
 int	main(void)
 {
-	ft_printf("===========\ntest string\n===========\n\n");
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=\ntest strings\n=-=-=-=-=-=-=-=-=-=-=-\n\n");
 	// Strings tests
 	assert(ft_printf("test\n") == printf("test\n"));
 	printf("========\n");
@@ -29,14 +29,14 @@ int	main(void)
 	assert(ft_printf("%s", (char *)0) == printf("%s", (char *)0));
 	printf("\n========\n");
 
-	ft_printf("\n===========\ntest char\n===========\n\n");
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=\ntest char\n=-=-=-=-=-=-=-=-=-=-=-\n\n");
 	// tests char
 	assert(ft_printf("%c", 'c') == printf("%c", 'c'));
 	printf("\n========\n");
 	assert(ft_printf("test : %c : test\n", 'a') == printf("test : %c : test\n", 'c'));
 	printf("========\n");
 
-	ft_printf("\n===========\ntest int/d\n===========\n\n");
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=\ntest int/d\n=-=-=-=-=-=-=-=-=-=-=-\n\n");
 	// tests char
 	assert(ft_printf("%i\n", 0) == printf("%i\n", 0));
 	printf("========\n");
@@ -55,5 +55,15 @@ int	main(void)
 	assert(ft_printf("%i\n", 2147483647) == printf("%i\n", 2147483647));
 	printf("========\n");
 	assert(ft_printf("%i\n", -2147483647) == printf("%i\n", -2147483647));
+	printf("========\n");
+
+	ft_printf("\n=-=-=-=-=-=-=-=-=-=-=-=\ntest pointer\n=-=-=-=-=-=-=-=-=-=-=-\n\n");
+	// tests pointer
+	char	*ptr = "sdbfhju";
+	assert(ft_printf("%p\n", ptr) == printf("%p\n", ptr));
+	printf("========\n");
+	assert(ft_printf("%p\n", "coucou") == printf("%p\n", "coucou"));
+	printf("========\n");
+	assert(ft_printf("%p\n", NULL) == printf("%p\n",NULL));
 	printf("========\n");
 }
