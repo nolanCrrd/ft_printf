@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:40:51 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/22 17:01:20 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/23 10:45:15 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char	*ft_addtoa(unsigned long long addr)
 {
-	static char	buffer[15];
+	static char	buffer[17];
 	char		*cursor;
 	char		*base;
 
 	if (addr == 0)
 		return ("(nil)");
 	ft_bzero(buffer, sizeof(buffer));
-	cursor = &buffer[13];
+	cursor = &buffer[15];
 	base = "0123456789abcdef";
 	while (addr / 16 != 0 )
 	{
@@ -36,12 +36,12 @@ char	*ft_addtoa(unsigned long long addr)
 
 char	*ft_ullxtoa(unsigned long long nbr, int is_upper)
 {
-	static char	buffer[13];
+	static char	buffer[17];
 	char		*cursor;
 	char		*base;
 
 	ft_bzero(buffer, sizeof(buffer));
-	cursor = &buffer[11];
+	cursor = &buffer[15];
 	base = "0123456789abcdef";
 	if (is_upper)
 		base = "0123456789ABCDEF";

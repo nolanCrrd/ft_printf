@@ -15,14 +15,34 @@
 #include <stddef.h>
 #include <unistd.h>
 
+void	print_correct_format(const char	*fmt, va_list *arg, size_t *current_write)
+{
+	char	*buffer;
+
+	buffer = NULL;
+	if (*fmt != 'c' && *fmt != '%')
+	{
+		if (*fmt == 's')
+			buffer = get_str_or_null(va_arg(*arg, char *));
+		else if (*fmt == 'i' || *fmt == 'd')
+			buffer = ft_lltoa(va_arg(*arg, int));
+		else if (*fmt == 'u')
+			buffer = ft_ulltoa(va_arg(*arg,unsigned int));
+		else if (*fmt == 'x' || *fmt == 'X')
+			buffer = ft_ullxtoa(va_arg(*arg, unsigned long long), *fmt == 'X');
+		else if (*fmt == 'p')
+			buffer = ft_addtoa(va_arg(*arg, unsigned long long));
+		*current_write = write(1, buffer, ft_strlen(buffer));
+	}
+	else
+		*current_write = write(1, fmt, 1);
+}
 
 int ft_printf(const char *fmt, ...)
 {
 	va_list arg;
 	size_t	wrote_number;
 	size_t	current_write;
-	char	*buffer;
-	char	tmp;
 
 	va_start(arg, fmt);
 	wrote_number = 0;
@@ -31,40 +51,7 @@ int ft_printf(const char *fmt, ...)
 		if (*fmt == '%')
 		{
 			fmt++;
-			if (*fmt == 's')
-				current_write = ft_putstr(va_arg(arg, char *));
-			else if (*fmt == 'c')
-			{
-				tmp = va_arg(arg, int);
-				current_write = write(1, &tmp, 1);
-			}
-			else if (*fmt == 'i' || *fmt == 'd')
-			{
-				buffer = ft_lltoa(va_arg(arg, int));
-				current_write = write(1, buffer, ft_strlen(buffer));
-			}
-			else if (*fmt == 'u')
-			{
-				buffer = ft_ulltoa(va_arg(arg,unsigned int));
-				current_write = write(1, buffer, ft_strlen(buffer));
-			}
-			else if (*fmt == '%')
-				current_write = write(1, "%", 1);
-			else if (*fmt == 'x')
-			{
-				buffer = ft_ullxtoa(va_arg(arg, unsigned long long), 0);
-				current_write = write(1, buffer, ft_strlen(buffer));
-			}
-			else if (*fmt == 'X')
-			{
-				buffer = ft_ullxtoa(va_arg(arg, unsigned long long), 1);
-				current_write = write(1, buffer, ft_strlen(buffer));
-			}
-			else if (*fmt == 'p')
-			{
-				buffer = ft_addtoa(va_arg(arg, unsigned long long));
-				current_write = write(1, buffer, ft_strlen(buffer));
-			}
+			print_correct_format(fmt, &arg, &current_write);
 		}
 		else
 			current_write = write(1, fmt, 1);
