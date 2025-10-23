@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 15:35:28 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/23 10:41:40 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:47:04 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_lltoa(long long nbr)
 		nbr /= -10;
 		sign = 1;
 	}
-	while (nbr / 10 != 0 )
+	while (nbr / 10 != 0)
 	{
 		*--cursor = nbr % 10 + '0';
 		nbr /= 10;
