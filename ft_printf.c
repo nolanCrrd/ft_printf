@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:42:34 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/23 14:44:09 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:59:14 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 #include <stddef.h>
 #include <unistd.h>
 
+int	is_valid_format(char c)
+{
+	return (c == 'c' || c == 's' || c == 'u' || c == 'i'
+		|| c == 'x' || c == '%' || c == 'X' || c == 'p' || c == 'd');
+}
+
 void	print_correct_format(const char	*fmt, va_list *arg, size_t *nb_write)
 {
 	char	*buffer;
+	char	tmp;
 
 	buffer = NULL;
 	if (*fmt != 'c' && *fmt != '%')
@@ -34,8 +41,13 @@ void	print_correct_format(const char	*fmt, va_list *arg, size_t *nb_write)
 			buffer = ft_addtoa(va_arg(*arg, unsigned long long));
 		*nb_write = write(1, buffer, ft_strlen(buffer));
 	}
+	else if (*fmt == '%')
+		*nb_write = write(1, "%", 1);
 	else
-		*nb_write = write(1, fmt, 1);
+	{
+		tmp = va_arg(*arg, int);
+		*nb_write = write(1, &tmp, 1);
+	}
 }
 
 int	ft_printf(const char *fmt, ...)
@@ -51,11 +63,14 @@ int	ft_printf(const char *fmt, ...)
 		if (*fmt == '%')
 		{
 			fmt++;
-			print_correct_format(fmt, &arg, &current_write);
+			if (is_valid_format(*fmt))
+				print_correct_format(fmt, &arg, &current_write);
+			else
+				current_write = ft_printf("%%%c", *fmt);
 		}
 		else
 			current_write = write(1, fmt, 1);
-		if (current_write <= 0)
+		if (current_write < 0)
 			return (E_WRITING_ERR);
 		wrote_number += current_write;
 		fmt++;
