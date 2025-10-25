@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = libftprintf.a
 
 SRCS = ft_printf.c \
-	ullxtoa.c \
+	xtoa.c \
 	ulltoa.c \
 	lltoa.c \
 	printing_utils.c \

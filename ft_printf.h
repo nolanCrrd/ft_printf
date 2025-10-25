@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:44:14 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/23 15:06:06 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/25 09:44:05 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ size_t	ft_strlen(char *str);
 void	ft_bzero(void *ptr, size_t len);
 char	*ft_lltoa(long long nbr);
 char	*ft_ulltoa(unsigned long long nbr);
-char	*ft_ullxtoa(unsigned long long nbr, int is_upper);
+char	*ft_xtoa(unsigned int nbr, int is_upper);
 char	*ft_addtoa(unsigned long long addr);
 char	*get_str_or_null(char	*str);
 // __attribute__((format(printf, 1, 2)))

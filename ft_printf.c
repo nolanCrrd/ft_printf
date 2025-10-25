@@ -6,7 +6,7 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:42:34 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/23 15:59:14 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/10/25 09:44:23 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ int	is_valid_format(char c)
 		|| c == 'x' || c == '%' || c == 'X' || c == 'p' || c == 'd');
 }
 
-void	print_correct_format(const char	*fmt, va_list *arg, size_t *nb_write)
+void	print_correct_format(const char	*fmt, va_list *arg, long *nb_write)
 {
 	char	*buffer;
 	char	tmp;
 
-	buffer = NULL;
 	if (*fmt != 'c' && *fmt != '%')
 	{
 		if (*fmt == 's')
@@ -36,7 +35,7 @@ void	print_correct_format(const char	*fmt, va_list *arg, size_t *nb_write)
 		else if (*fmt == 'u')
 			buffer = ft_ulltoa(va_arg(*arg, unsigned int));
 		else if (*fmt == 'x' || *fmt == 'X')
-			buffer = ft_ullxtoa(va_arg(*arg, unsigned long long), *fmt == 'X');
+			buffer = ft_xtoa(va_arg(*arg, unsigned int), *fmt == 'X');
 		else if (*fmt == 'p')
 			buffer = ft_addtoa(va_arg(*arg, unsigned long long));
 		*nb_write = write(1, buffer, ft_strlen(buffer));
@@ -53,8 +52,8 @@ void	print_correct_format(const char	*fmt, va_list *arg, size_t *nb_write)
 int	ft_printf(const char *fmt, ...)
 {
 	va_list	arg;
-	size_t	wrote_number;
-	size_t	current_write;
+	long	wrote_number;
+	long	current_write;
 
 	va_start(arg, fmt);
 	wrote_number = 0;
