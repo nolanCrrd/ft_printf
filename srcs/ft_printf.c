@@ -6,11 +6,11 @@
 /*   By: ncorrear <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 14:42:34 by ncorrear          #+#    #+#             */
-/*   Updated: 2025/10/25 09:44:23 by ncorrear         ###   ########.fr       */
+/*   Updated: 2025/11/07 08:53:01 by ncorrear         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 #include <stdarg.h>
 #include <stddef.h>
 #include <unistd.h>
@@ -21,7 +21,7 @@ int	is_valid_format(char c)
 		|| c == 'x' || c == '%' || c == 'X' || c == 'p' || c == 'd');
 }
 
-void	print_correct_format(const char	*fmt, va_list *arg, long *nb_write)
+void	print_correct_format(const char	*fmt, va_list *arg, long *nb_write, int fd)
 {
 	char	*buffer;
 	char	tmp;
@@ -36,26 +36,24 @@ void	print_correct_format(const char	*fmt, va_list *arg, long *nb_write)
 			buffer = ft_ulltoa(va_arg(*arg, unsigned int));
 		else if (*fmt == 'x' || *fmt == 'X')
 			buffer = ft_xtoa(va_arg(*arg, unsigned int), *fmt == 'X');
-		else if (*fmt == 'p')
+		else
 			buffer = ft_addtoa(va_arg(*arg, unsigned long long));
-		*nb_write = write(1, buffer, ft_strlen(buffer));
+		*nb_write = write(fd, buffer, ft_strlen(buffer));
 	}
 	else if (*fmt == '%')
-		*nb_write = write(1, "%", 1);
+		*nb_write = write(fd, "%", 1);
 	else
 	{
 		tmp = va_arg(*arg, int);
-		*nb_write = write(1, &tmp, 1);
+		*nb_write = write(fd, &tmp, 1);
 	}
 }
 
-int	ft_printf(const char *fmt, ...)
+static int	ft_vdprintf(int fd, const char *fmt, va_list *args)
 {
-	va_list	arg;
 	long	wrote_number;
 	long	current_write;
 
-	va_start(arg, fmt);
 	wrote_number = 0;
 	while (*fmt)
 	{
@@ -63,17 +61,38 @@ int	ft_printf(const char *fmt, ...)
 		{
 			fmt++;
 			if (is_valid_format(*fmt))
-				print_correct_format(fmt, &arg, &current_write);
+				print_correct_format(fmt, args, &current_write, fd);
 			else
-				current_write = ft_printf("%%%c", *fmt);
+				current_write = ft_dprintf(fd, "%%%c", *fmt);
 		}
 		else
-			current_write = write(1, fmt, 1);
+			current_write = write(fd, fmt, 1);
 		if (current_write < 0)
 			return (E_WRITING_ERR);
 		wrote_number += current_write;
 		fmt++;
 	}
+	return (wrote_number);
+}
+
+int	ft_dprintf(int fd, const char *fmt, ...)
+{
+	long	wrote_number;
+	va_list	arg;
+
+	va_start(arg, fmt);
+	wrote_number = ft_vdprintf(fd, fmt, &arg);
+	va_end(arg);
+	return (wrote_number);
+}
+
+int	ft_printf(const char *fmt, ...)
+{
+	long	wrote_number;
+	va_list	arg;
+
+	va_start(arg, fmt);
+	wrote_number = ft_vdprintf(STDOUT_FILENO, fmt, &arg);
 	va_end(arg);
 	return (wrote_number);
 }
